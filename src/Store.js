@@ -1,6 +1,6 @@
 import React from "react";
 
-const CTX = React.creactContext();
+export const CTX = React.createContext();
 
 const initState = {
   general: [
@@ -9,9 +9,9 @@ const initState = {
     { from: "hey", msg: "nani" },
   ],
   topic2: [
-    { from: "hey", msg: "nani" },
-    { from: "hey", msg: "nani" },
-    { from: "hey", msg: "nani" },
+    { from: "hey", msg: "You made it!" },
+    { from: "hey", msg: "You made it!" },
+    { from: "hey", msg: "You made it!" },
   ],
 };
 
@@ -29,7 +29,7 @@ function reducer(state, action) {
 }
 
 export default function Store(props) {
-  const reducerHooks = React.useReducer(reducer, initState);
+  const reducerHook = React.useReducer(reducer, initState);
 
   return <CTX.Provider value={reducerHook}>{props.children}</CTX.Provider>;
 }
