@@ -38,10 +38,13 @@ export default function Store(props) {
   if (!socket) {
     socket = io(":3001");
   }
+
+  const user = "serina" + Math.random(100).toFixed(2);
+
   const [allChats] = React.useReducer(reducer, initState);
 
   return (
-    <CTX.Provider value={{ allChats, sendChatAction }}>
+    <CTX.Provider value={{ allChats, sendChatAction, user }}>
       {props.children}
     </CTX.Provider>
   );
