@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import io from "socket.io-client";
 
 export const CTX = React.createContext();
@@ -20,10 +20,7 @@ function reducer(state, action) {
   const { from, msg, topic } = action.payload;
   switch (action.type) {
     case "RECEIVE_MESSAGE":
-      return {
-        ...state,
-        [topic]: [...state[topic], { from, msg }],
-      };
+      return { ...state, [topic]: [...state[topic], { from, msg }] };
     default:
       return state;
   }
@@ -38,12 +35,14 @@ function sendChatAction(value) {
 export default function Store(props) {
   const [allChats, dispatch] = React.useReducer(reducer, initState);
 
-  if (!socket) {
-    socket = io(":3001");
-    socket.on("chat message", (msg) => {
-      dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
-    });
-  }
+  useEffect(() => {
+    if (!socket) {
+      socket = io(":3001");
+      socket.on("chat message", (msg) => {
+        dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
+      });
+    }
+  }, []);
 
   const user = "serina" + Math.random(100).toFixed(2);
 
